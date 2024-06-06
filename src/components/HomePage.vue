@@ -1,9 +1,9 @@
 <template>
-  <v-container class="bg-surface-variant">
+  <v-container class="bg-surface-variant" style="width: 1200px; border-radius: 16px">
     <h1>p r o d u c t s</h1>
     <v-row no-gutters>
-      <v-col cols="12" sm="8" lg="4" v-for="product in products" :key="product.id">
-        <v-sheet class="ma-2 pa-2">
+      <v-col cols="12" sm="3" lg="4" v-for="product in products" :key="product.id">
+        <v-sheet class="ma-1 pa-3" style="border-radius: 0.6rem">
           <v-img height="250" :src="product.thumbnail" cover></v-img>
           <v-card-item>
             <v-card-title>{{ product.brand }}</v-card-title>
@@ -22,7 +22,7 @@
                 buffer-opacity="1"
                 :buffer-value="product.rating"
                 color="#12512a"
-                height="12"
+                height="10"
                 max="9"
                 min="0"
                 :model-value="2"
@@ -42,18 +42,43 @@
             {{ product.description }}
           </div> -->
           <v-card-actions>
-            <v-btn
-              color="deep-purple-lighten-2"
-              text="Add To Cart"
-              block
-              border:2
-              @click="goToProductsPage(product.id)"
-            ></v-btn>
+            <v-hover v-slot="{ isHovering, props }" open-delay="200">
+              <v-btn
+                :class="{ 'on-hover': isHovering }"
+                :elevation="isHovering ? 16 : 2"
+                v-bind="props"
+                color="deep-purple"
+                text="Add To Cart"
+                block
+                border
+                @click="goToProductsPage(product.id)"
+              ></v-btn>
+            </v-hover>
           </v-card-actions>
         </v-sheet>
       </v-col>
     </v-row>
   </v-container>
+
+  <div>
+    <v-card rounded="lg" theme="dark">
+      <v-container>
+        <v-row>
+          <v-col v-for="n in 30" :key="n" cols="12" lg="4" md="6">
+            <v-skeleton-loader :loading="loading" height="350" type="image, list-item-three-line">
+              <v-responsive>
+                <v-img :src="src" class="rounded-lg mb-2" height="284" cover></v-img>
+
+                <v-list-item :subtitle="subtitle" :title="title" class="px-0"></v-list-item>
+              </v-responsive>
+            </v-skeleton-loader>
+          </v-col>
+        </v-row>
+
+        <br />
+      </v-container>
+    </v-card>
+  </div>
 </template>
 
 <script setup>
@@ -65,6 +90,8 @@ const store = productsStore()
 
 const products = ref([])
 
+const loading = ref(true)
+
 const router = useRouter()
 
 onMounted(async () => {
@@ -72,6 +99,7 @@ onMounted(async () => {
   const data = await result.json()
   store.addProducts(data.products)
   products.value = store?.allProducts
+  loading.value = false
 })
 const goToProductsPage = (id) => {
   router.push({ name: 'ProductsPage', params: { id } })
