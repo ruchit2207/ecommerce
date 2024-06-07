@@ -6,6 +6,10 @@ import { mdiCart } from '@mdi/js'
 
 const store = productsStore()
 const router = useRouter()
+
+const kai = () => {
+  router.push({ name: 'HomePage' })
+}
 </script>
 
 <template>
@@ -18,7 +22,12 @@ const router = useRouter()
               <v-app-bar-nav-icon></v-app-bar-nav-icon>
             </template>
 
-            <v-app-bar-title style="font-size: x-large; font-weight: bold">ZeuX</v-app-bar-title>
+            <v-app-bar-title
+              style="font-size: x-large; font-weight: bold"
+              @click="kai"
+              class="cursor-pointer"
+              >ZeuX</v-app-bar-title
+            >
             <template v-slot:append>
               <v-btn icon="mdi-heart"></v-btn>
               <v-btn icon="mdi-magnify"></v-btn>
@@ -38,8 +47,8 @@ const router = useRouter()
       <RouterView />
     </main>
 
-    <footer class="sticky-footer">
-      <div>
+    <footer class="sticky-footer" style="background-color: #2e303a">
+      <div style="display: flex; justify-content: center">
         <v-btn v-for="icon in icons" :key="icon" :icon="icon" class="mx-4" variant="text"></v-btn>
       </div>
 
@@ -54,7 +63,9 @@ const router = useRouter()
 
       <v-divider></v-divider>
 
-      <div>{{ new Date().getFullYear() }} — <strong>Vuetify</strong></div>
+      <div style="display: flex; justify-content: center">
+        {{ new Date().getFullYear() }} — <strong>ZeuX</strong>
+      </div>
     </footer>
   </div>
 </template>

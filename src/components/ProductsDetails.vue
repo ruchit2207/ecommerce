@@ -17,32 +17,6 @@
         width="400"
         style="object-fit: cover; margin-bottom: 20px"
       />
-      <!-- <v-hover v-slot="{ isHovering, props }" open-delay="200">
-        <v-btn
-          :class="{ 'on-hover': isHovering }"
-          :elevation="isHovering ? 16 : 2"
-          v-bind="props"
-          color="deep-purple"
-          text="Add To Cart"
-          block
-          border
-          v-on:click="handleAddToCart"
-          style="margin-bottom: 20px"
-          >Add to Cart</v-btn
-        >
-
-        <v-btn
-          :class="{ 'on-hover': isHovering }"
-          :elevation="isHovering ? 16 : 2"
-          v-bind="props"
-          text="Add To Cart"
-          block
-          border
-          v-on:click="handleAddToCart"
-          style="margin-top: 8px"
-          >Go Back To Home Page</v-btn
-        >
-      </v-hover> -->
 
       <div style="display: flex; justify-content: space-evenly">
         <div style="display: flex; justify-content: center; align-items: center">
@@ -128,7 +102,7 @@
             <v-expansion-panel
               :text="review.comment"
               :title="review.reviewerName"
-              style="background-color: black; color: white; margin-bottom: 2px"
+              style="background-color: #a59f9f; color: #1e1919; margin-bottom: 2px"
             ></v-expansion-panel>
           </v-expansion-panels>
         </div>
@@ -162,6 +136,8 @@ const router = useRouter()
 
 let panel = ref([])
 
+const cartItems = ref({})
+
 const selectedProduct = computed(() => {
   return store.allProducts.find((item) => item.id === Number(route.params.id))
 })
@@ -175,7 +151,12 @@ if (selectedProduct.value) {
   console.log(panel.value)
 }
 const handleAddToCart = () => {
-  store.addToCart(selectedProduct.value)
+  cartItems.value = {
+    qty: 1,
+    item: selectedProduct.value
+  }
+  store.addToCart(cartItems.value)
+  console.log(cartItems.value)
   router.push({ name: 'CartPage' })
 }
 

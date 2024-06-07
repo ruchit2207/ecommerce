@@ -3,7 +3,12 @@
     <h1>p r o d u c t s</h1>
     <v-row no-gutters>
       <v-col cols="12" sm="3" lg="4" v-for="product in products" :key="product.id">
-        <v-sheet class="ma-1 pa-3" style="border-radius: 0.6rem" :elevation="24">
+        <v-sheet
+          class="ma-1 pa-3 cursor-pointer"
+          style="border-radius: 0.6rem"
+          :elevation="24"
+          @click="goToProductsPage(product.id)"
+        >
           <v-img height="250" :src="product.thumbnail" cover></v-img>
           <v-card-item>
             <v-card-title>{{ product.brand }}</v-card-title>
@@ -40,7 +45,7 @@
                 :elevation="isHovering ? 16 : 2"
                 v-bind="props"
                 color="deep-purple"
-                text="Add To Cart"
+                text="See Deatiled Info"
                 block
                 border
                 @click="goToProductsPage(product.id)"

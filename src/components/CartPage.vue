@@ -30,11 +30,7 @@
       </v-main>
     </v-layout>
   </v-card>
-  <v-container
-    class="bg-surface-variant"
-    style="width: 1200px; border-radius: 16px; margin: 30px; padding: 20px"
-    v-else
-  >
+  <v-container style="width: 1200px; border-radius: 16px; margin: 30px; padding: 20px" v-else>
     <h1>Products In Cart :</h1>
     <v-row no-gutters>
       <v-col cols="12" sm="3" lg="4">
@@ -44,11 +40,11 @@
           :width="1160"
           border
           rounded
-          v-for="item in store.cart"
-          :key="item.id"
+          v-for="product in store.cart"
+          :key="product.item.id"
           style="margin-bottom: 8px; display: flex; padding: 4px"
         >
-          <img :src="item.thumbnail" />
+          <img :src="product.item.thumbnail" />
           <v-sheet
             :elevation="24"
             :height="390"
@@ -59,42 +55,54 @@
           >
             <v-card-item>
               <v-card-title style="font-size: xx-large; font-weight: bold">{{
-                item?.title
+                product.item?.title
               }}</v-card-title>
 
               <v-card-subtitle>
                 <span class="me-1">
-                  {{ item?.category }}
+                  {{ product.item?.category }}
                 </span>
-
-                <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
               </v-card-subtitle>
             </v-card-item>
 
             <v-card-text>
               <h2
-                v-if="item?.discountPercentage"
-                class="mt-6 text-subtitle-1"
+                v-if="product.item?.discountPercentage"
+                class="text-subtitle-1"
                 style="font-size: 20px; font-weight: bold"
               >
-                $ {{ item?.discountPercentage }}
+                $ {{ product.item?.discountPercentage }}
               </h2>
 
               <h2
-                v-if="item?.discountPercentage"
+                v-if="product.item?.discountPercentage"
                 class="text-subtitle-1"
                 style="text-decoration: line-through; color: gray"
               >
-                $ {{ item?.price }}
+                $ {{ product.item?.price }}
               </h2>
 
               <span class="me-1">
-                {{ item?.warrantyInformation }}
+                {{ product.item?.warrantyInformation }}
               </span>
 
               <div>
                 <h2 style="margin-bottom: 6px; margin-top: 20px">About The Product :</h2>
-                {{ item?.description }}
+                {{ product.item?.description }}
+                <br />
+              </div>
+              <div style="display: flex; align-items: center; gap: 20px; margin-top: 4px">
+                <v-btn
+                  density="compact"
+                  icon="mdi-minus"
+                  @click="cartQuantiyDecrement(product.item.id)"
+                ></v-btn>
+                <h2>{{ product.qty }}</h2>
+                <v-btn
+                  density="compact"
+                  icon="mdi-plus"
+                  @click="cartQuantiyIncrement(product.item.id)"
+                ></v-btn>
               </div>
             </v-card-text>
 
@@ -103,20 +111,17 @@
                 <v-btn
                   height="52"
                   min-width="164"
-                  @click="navi"
+                  @click="dialog = !dialog"
                   style="background-color: #339f33; color: wheat"
                   >Buy Now</v-btn
                 >
               </div>
+
               <div
                 @click="removeFromCart(item.id)"
                 style="display: flex; justify-content: center; align-items: center"
               >
-                <v-btn
-                  height="52"
-                  min-width="164"
-                  @click="navi"
-                  style="background-color: #b53636; color: wheat"
+                <v-btn height="52" min-width="164" style="background-color: #b53636; color: wheat"
                   >Remove Product</v-btn
                 >
               </div>
@@ -126,20 +131,86 @@
       </v-col>
     </v-row>
   </v-container>
+
+  <v-dialog v-model="dialog" width="auto">
+    <v-card
+      v-if="dialog"
+      append-icon="$close"
+      class="mx-auto"
+      elevation="16"
+      max-width="700"
+      title="Order Summary.."
+      style="padding: 8px"
+    >
+      <template v-slot:append>
+        <v-btn icon="$close" variant="text" @click="dialog = false"></v-btn>
+      </template>
+
+      <v-divider></v-divider>
+
+      <div class="py-12 text-center">
+        <v-icon class="mb-6" color="success" icon="mdi-check-circle-outline" size="128"></v-icon>
+
+        <div class="text-h4 font-weight-bold">Congratulations!!Order Is Placed..</div>
+      </div>
+
+      <v-divider></v-divider>
+
+      <div class="pa-4 text-end">
+        <v-btn
+          class="text-none"
+          color="medium-emphasis"
+          min-width="92"
+          variant="outlined"
+          rounded
+          @click="navi"
+        >
+          Go Back To Home Page!!
+        </v-btn>
+      </div>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
 import { productsStore } from '@/stores/products'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const store = productsStore()
 
 const router = useRouter()
 
+const dialog = ref(false)
+
+const cartQuantiyIncrement = (id) => {
+  const product = store.cart.find((pro) => {
+    return pro.item.id === id
+  })
+  console.log(product)
+
+  product.qty++
+}
+
+const cartQuantiyDecrement = (id) => {
+  const product = store.cart.find((pro) => {
+    return pro.item.id === id
+  })
+  console.log(product)
+  if (product.qty !== 1) {
+    product.qty--
+  }
+}
+
 console.log(store.cart)
 
 const removeFromCart = (id) => {
   store.removeFromCart(id)
+}
+
+const navi = () => {
+  dialog.value = false
+  router.push({ name: 'HomePage' })
 }
 </script>
 
