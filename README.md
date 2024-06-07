@@ -35,3 +35,5 @@ npm run lint
 ```
 
 npm install @jamescoyle/vue-icon
+
+npm install pinia-plugin-persistedstate

@@ -17,7 +17,16 @@ export const productsStore = defineStore('products', {
 
     removeFromCart(id) {
       console.log('>>>>> ID', id)
-      this.cart = this.cart.filter((item) => item.id !== id)
+      this.cart = this.cart.filter((item) => item.item.id !== id)
     }
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'products-store',
+        storage: localStorage
+      }
+    ]
   }
 })

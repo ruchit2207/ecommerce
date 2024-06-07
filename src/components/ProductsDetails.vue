@@ -19,20 +19,43 @@
       />
 
       <div style="display: flex; justify-content: space-evenly">
-        <div style="display: flex; justify-content: center; align-items: center">
+        <div
+          style="display: flex; justify-content: center; align-items: center"
+          v-if="!itemAlreadyThere"
+        >
+          <v-snackbar :timeout="2000" color="success">
+            <template v-slot:activator="{ props }">
+              <v-btn
+                height="52"
+                min-width="164"
+                style="background-color: #339f33; color: wheat"
+                v-on:click="handleAddToCart"
+                class="ma-2"
+                v-bind="props"
+                >Add To Cart</v-btn
+              >
+            </template>
+
+            Item Added To Cart
+          </v-snackbar>
+        </div>
+        <div style="display: column; justify-content: center; align-items: center" v-else>
           <v-btn
             height="52"
             min-width="164"
-            @click="navi"
             style="background-color: #339f33; color: wheat"
-            v-on:click="handleAddToCart"
-            >Add To Cart</v-btn
+            v-on:click="carty"
+            class="ma-2"
+            >Go To Cart</v-btn
           >
         </div>
         <div @click="navi" style="display: flex; justify-content: center; align-items: center">
-          <v-btn height="52" min-width="164" @click="navi">Go Back To Home Page!</v-btn>
+          <v-btn height="52" min-width="164" @click="navi">Go Back To Home Page! </v-btn>
         </div>
       </div>
+      <h3 v-if="itemAlreadyThere" style="text-align: center; margin-top: 8px">
+        Items Already in the Cart !!
+      </h3>
     </v-sheet>
     <v-sheet
       :elevation="24"
@@ -125,7 +148,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { productsStore } from '@/stores/products'
 import { useRoute, useRouter } from 'vue-router'
 const store = productsStore()
@@ -136,7 +159,7 @@ const router = useRouter()
 
 let panel = ref([])
 
-const cartItems = ref({})
+const itemAlreadyThere = ref(false)
 
 const selectedProduct = computed(() => {
   return store.allProducts.find((item) => item.id === Number(route.params.id))
@@ -146,18 +169,31 @@ const navi = () => {
   router.push({ name: 'HomePage' })
 }
 
+const carty = () => {
+  router.push({ name: 'CartPage' })
+}
+
 if (selectedProduct.value) {
   panel.value = selectedProduct.value?.reviews
   console.log(panel.value)
 }
+
+watchEffect(() => {
+  const product = store.cart.find((item) => item.item.id === Number(route.params.id))
+  if (product) {
+    itemAlreadyThere.value = true
+  } else {
+    itemAlreadyThere.value = false
+  }
+})
+
 const handleAddToCart = () => {
-  cartItems.value = {
+  store.addToCart({
     qty: 1,
     item: selectedProduct.value
-  }
-  store.addToCart(cartItems.value)
-  console.log(cartItems.value)
-  router.push({ name: 'CartPage' })
+  })
+
+  // router.push({ name: 'CartPage' })
 }
 
 console.log('selected product = ', selectedProduct.value)

@@ -118,7 +118,7 @@
               </div>
 
               <div
-                @click="removeFromCart(item.id)"
+                @click="removeFromCart(product.item.id)"
                 style="display: flex; justify-content: center; align-items: center"
               >
                 <v-btn height="52" min-width="164" style="background-color: #b53636; color: wheat"
