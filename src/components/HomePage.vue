@@ -1,9 +1,9 @@
 <template>
-  <v-container class="bg-surface-variant" style="width: 1200px; border-radius: 16px">
+  <v-container style="width: 1200px; border-radius: 16px" v-if="products.length > 0">
     <h1>p r o d u c t s</h1>
     <v-row no-gutters>
       <v-col cols="12" sm="3" lg="4" v-for="product in products" :key="product.id">
-        <v-sheet class="ma-1 pa-3" style="border-radius: 0.6rem">
+        <v-sheet class="ma-1 pa-3" style="border-radius: 0.6rem" :elevation="24">
           <v-img height="250" :src="product.thumbnail" cover></v-img>
           <v-card-item>
             <v-card-title>{{ product.brand }}</v-card-title>
@@ -16,31 +16,23 @@
           </v-card-item>
           <v-card-text>
             <v-row align="center" class="mx-0">
-              <v-progress-linear
-                bg-color="#92aed9"
-                buffer-color="#6a3e0b"
-                buffer-opacity="1"
-                :buffer-value="product.rating"
-                color="#12512a"
-                height="10"
-                max="9"
-                min="0"
-                :model-value="2"
-                rounded
-              ></v-progress-linear>
+              <v-rating
+                :model-value="product?.rating"
+                color="amber"
+                density="compact"
+                size="large"
+                half-increments
+                readonly
+              ></v-rating>
 
-              <div class="ms-4 text-h6">{{ product.rating }} / 5</div>
+              <div class="text-grey ms-4">{{ product?.rating }}</div>
             </v-row>
-            <br />
           </v-card-text>
 
           <v-divider class="mx-4 mb-1"></v-divider>
 
           <div class="my-4 text-subtitle-1">Category : {{ product.category }}</div>
 
-          <!-- <div>
-            {{ product.description }}
-          </div> -->
           <v-card-actions>
             <v-hover v-slot="{ isHovering, props }" open-delay="200">
               <v-btn
@@ -60,7 +52,7 @@
     </v-row>
   </v-container>
 
-  <div>
+  <div v-else>
     <v-card rounded="lg" theme="dark">
       <v-container>
         <v-row>

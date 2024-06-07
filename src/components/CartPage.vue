@@ -19,7 +19,10 @@
 
           <template v-slot:text>
             <div class="text-body-1">Add some Products</div>
-            <v-btn variant="tonal" v-on:click="router.push({ name: 'HomePage' })"
+            <v-btn
+              variant="tonal"
+              v-on:click="router.push({ name: 'HomePage' })"
+              style="width: 800px"
               >Back to Products Page !!</v-btn
             >
           </template>
@@ -95,56 +98,34 @@
               </div>
             </v-card-text>
 
-            <v-hover v-slot="{ isHovering, props }" open-delay="200">
-              <v-btn
-                :class="{ 'on-hover': isHovering }"
-                :elevation="isHovering ? 16 : 2"
-                v-bind="props"
-                color="green"
-                text="Add To Cart"
-                block
-                border
-                v-on:click="handleAddToCart"
-                >Buy Now</v-btn
-              >
-
-              <v-btn
-                :class="{ 'on-hover': isHovering }"
-                :elevation="isHovering ? 16 : 2"
-                v-bind="props"
-                text="Add To Cart"
-                color="red"
-                block
-                border
-                v-on:click="handleAddToCart"
-                style="margin-top: 6px"
+            <div style="display: flex; justify-content: space-evenly">
+              <div style="display: flex; justify-content: center; align-items: center">
+                <v-btn
+                  height="52"
+                  min-width="164"
+                  @click="navi"
+                  style="background-color: #339f33; color: wheat"
+                  >Buy Now</v-btn
+                >
+              </div>
+              <div
                 @click="removeFromCart(item.id)"
-                >Remove From The Cart</v-btn
+                style="display: flex; justify-content: center; align-items: center"
               >
-            </v-hover>
+                <v-btn
+                  height="52"
+                  min-width="164"
+                  @click="navi"
+                  style="background-color: #b53636; color: wheat"
+                  >Remove Product</v-btn
+                >
+              </div>
+            </div>
           </v-sheet>
         </v-sheet>
       </v-col>
     </v-row>
   </v-container>
-  <!-- <v-card class="mx-auto" max-width="360" v-else>
-    <v-layout>
-      <v-app-bar color="#6200ee" title="Drafts"> </v-app-bar>
-
-      <v-main>
-        <div v-for="item in store.cart" :key="item.id">
-          <div>
-            <img :src="item.thumbnail" />
-            <span>Brand: {{ item.brand }}</span>
-            <span>Category: {{ item.category }}</span>
-            <span>Price: ${{ item.price }}</span>
-
-            <button @click="removeFromCart(item.id)">Remove</button>
-          </div>
-        </div>
-      </v-main>
-    </v-layout>
-  </v-card> -->
 </template>
 
 <script setup>

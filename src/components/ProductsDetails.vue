@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="bg-surface-variant"
+    v-if="selectedProduct"
     style="
       max-width: 1200px;
       height: 695px;
@@ -17,7 +17,7 @@
         width="400"
         style="object-fit: cover; margin-bottom: 20px"
       />
-      <v-hover v-slot="{ isHovering, props }" open-delay="200">
+      <!-- <v-hover v-slot="{ isHovering, props }" open-delay="200">
         <v-btn
           :class="{ 'on-hover': isHovering }"
           :elevation="isHovering ? 16 : 2"
@@ -42,7 +42,23 @@
           style="margin-top: 8px"
           >Go Back To Home Page</v-btn
         >
-      </v-hover>
+      </v-hover> -->
+
+      <div style="display: flex; justify-content: space-evenly">
+        <div style="display: flex; justify-content: center; align-items: center">
+          <v-btn
+            height="52"
+            min-width="164"
+            @click="navi"
+            style="background-color: #339f33; color: wheat"
+            v-on:click="handleAddToCart"
+            >Add To Cart</v-btn
+          >
+        </div>
+        <div @click="navi" style="display: flex; justify-content: center; align-items: center">
+          <v-btn height="52" min-width="164" @click="navi">Go Back To Home Page!</v-btn>
+        </div>
+      </div>
     </v-sheet>
     <v-sheet
       :elevation="24"
@@ -119,6 +135,19 @@
       </v-card-text>
     </v-sheet>
   </v-container>
+
+  <div v-else style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+    <v-card
+      title="You Have not selected Any Items!"
+      text="Go Back to Products Page,and Shop Some Items.."
+      style="width: 600px; height: 165px; text-align: center"
+      variant="tonal"
+    >
+      <div style="display: flex; justify-content: center; align-items: center">
+        <v-btn height="52" min-width="164" @click="navi"> Go Back To Products Page</v-btn>
+      </div>
+    </v-card>
+  </div>
 </template>
 
 <script setup>
@@ -137,6 +166,10 @@ const selectedProduct = computed(() => {
   return store.allProducts.find((item) => item.id === Number(route.params.id))
 })
 
+const navi = () => {
+  router.push({ name: 'HomePage' })
+}
+
 if (selectedProduct.value) {
   panel.value = selectedProduct.value?.reviews
   console.log(panel.value)
@@ -150,22 +183,3 @@ console.log('selected product = ', selectedProduct.value)
 </script>
 
 <style lang="scss" scoped></style>
-
-<!-- <script>
-export default {
-  data() {
-    return {
-      panel: [],
-      reviews : []
-    }
-  },
-  methods: {
-    all() {
-      this.panel = this.reviews
-    },
-    none() {
-      this.panel = []
-    }
-  }
-}
-</script> -->
