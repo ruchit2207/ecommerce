@@ -88,6 +88,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { productsStore } from '@/stores/products'
+// import axios from 'axios'
 
 const store = productsStore()
 
@@ -102,6 +103,9 @@ onMounted(async () => {
   const data = await result.json()
   store.addProducts(data.products)
   products.value = store?.allProducts
+  // Step 2: Send the fetched data to your backend to save in MongoDB
+  // await axios.post('http://localhost:8000/save-products', { products: products.value })
+  // console.log('Products saved successfully!')
   loading.value = false
 })
 const goToProductsPage = (id) => {
