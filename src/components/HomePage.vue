@@ -9,7 +9,12 @@
           :elevation="24"
           @click="goToProductsPage(product.id)"
         >
-          <v-img height="250" :src="product.thumbnail" cover></v-img>
+          <v-img
+            height="250"
+            :src="product.thumbnail"
+            cover
+            style="border-radius: 0.6rem; background-color: rgb(195 182 182)"
+          ></v-img>
           <v-card-item>
             <v-card-title>{{ product.brand }}</v-card-title>
 
@@ -30,7 +35,7 @@
                 readonly
               ></v-rating>
 
-              <div class="text-grey ms-4">{{ product?.rating }}</div>
+              <div class="text-grey ms-4 bg-pinky on-pinky">{{ product?.rating }}</div>
             </v-row>
           </v-card-text>
 
@@ -49,6 +54,7 @@
                 block
                 border
                 @click="goToProductsPage(product.id)"
+                style="background-color: #e5dada"
               ></v-btn>
             </v-hover>
           </v-card-actions>
@@ -107,5 +113,12 @@ const goToProductsPage = (id) => {
 .card {
   width: 300px;
   height: 400px;
+}
+</style>
+
+<style>
+.custom-class {
+  background: rgb(var(--v-theme-something));
+  color: rgba(var(--v-theme-on-something), 0.9);
 }
 </style>

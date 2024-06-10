@@ -14,8 +14,8 @@
       <img
         :src="selectedProduct?.thumbnail"
         alt=""
-        width="400"
-        style="object-fit: cover; margin-bottom: 20px"
+        width="450"
+        style="object-fit: cover; margin-bottom: 20px; background-color: #bb9999"
       />
 
       <div style="display: flex; justify-content: space-evenly">
@@ -28,7 +28,7 @@
               <v-btn
                 height="52"
                 min-width="164"
-                style="background-color: #339f33; color: wheat"
+                style="background-color: rgb(73 161 73); color: white"
                 v-on:click="handleAddToCart"
                 class="ma-2"
                 v-bind="props"
@@ -50,7 +50,9 @@
           >
         </div>
         <div @click="navi" style="display: flex; justify-content: center; align-items: center">
-          <v-btn height="52" min-width="164" @click="navi">Go Back To Home Page! </v-btn>
+          <v-btn height="52" min-width="164" @click="navi" style="background-color: #e5dada"
+            >Go Back To Home Page!
+          </v-btn>
         </div>
       </div>
       <h3 v-if="itemAlreadyThere" style="text-align: center; margin-top: 8px">
@@ -93,13 +95,13 @@
           <div class="text-grey ms-4">{{ selectedProduct?.rating }}</div>
         </v-row>
 
-        <h2
+        <h1
           v-if="selectedProduct?.discountPercentage"
-          class="mt-6 text-subtitle-1"
-          style="font-size: 20px; font-weight: bold"
+          class="my-6 text-subtitle-1"
+          style="font-size: 500px; font-weight: bold"
         >
           $ {{ selectedProduct?.discountPercentage }}
-        </h2>
+        </h1>
 
         <h2
           v-if="selectedProduct?.discountPercentage"
@@ -109,7 +111,7 @@
           $ {{ selectedProduct?.price }}
         </h2>
 
-        <span class="me-1">
+        <span class="me-1" style="color: red">
           {{ selectedProduct?.warrantyInformation }}
         </span>
 
@@ -125,7 +127,7 @@
             <v-expansion-panel
               :text="review.comment"
               :title="review.reviewerName"
-              style="background-color: #a59f9f; color: #1e1919; margin-bottom: 2px"
+              style="background-color: #e5dada; color: #1e1919; margin-bottom: 6px"
             ></v-expansion-panel>
           </v-expansion-panels>
         </div>

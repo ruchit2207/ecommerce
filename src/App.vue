@@ -3,6 +3,13 @@ import { RouterView, useRouter } from 'vue-router'
 import { productsStore } from './stores/products'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiCart } from '@mdi/js'
+import { useTheme } from 'vuetify'
+
+const theme = useTheme()
+
+function toggleTheme() {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
 
 const store = productsStore()
 const router = useRouter()
@@ -31,6 +38,7 @@ const kai = () => {
             <template v-slot:append>
               <v-btn icon="mdi-heart"></v-btn>
               <v-btn icon="mdi-magnify"></v-btn>
+              <v-btn @click="toggleTheme">toggle theme</v-btn>
               <v-btn @click="router.push({ name: 'CartPage' })">
                 <v-badge :content="store.cart.length" floating>
                   <SvgIcon type="mdi" :path="path"></SvgIcon>

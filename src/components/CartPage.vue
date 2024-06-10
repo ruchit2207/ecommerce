@@ -5,9 +5,9 @@
 
       <v-main>
         <v-empty-state
-          image="https://vuetifyjs.b-cdn.net/docs/images/components/v-empty-state/astro-dog.svg"
+          image="https://img.pikbest.com/wp/202347/empty-shopping-cart-close-up-3d-render-of-an_9750431.jpg!sw800"
           size="200"
-          text-width="250"
+          text-width="400"
         >
           <template v-slot:media>
             <v-img class="mb-8"></v-img>
