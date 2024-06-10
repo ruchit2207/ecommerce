@@ -3,18 +3,27 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import { Product } from './models/Product.js'
+import router from './routes/routes.js'
+import cookieParser from 'cookie-parser'
 
 const server = express()
 
-server.use(cors())
-
+server.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:5173']
+  })
+)
+server.use(cookieParser())
 server.use(express.json())
 server.use(bodyParser.json())
 
 mongoose
   .connect('mongodb+srv://vue-server:JdcOU7VoZWeNPnfg@cluster0.uoo6fvm.mongodb.net/vued')
   .then(() => console.log('mongoo is connected'))
-  .catch(() => console.log('failed to connect tomongo'))
+  .catch(() => console.log('failed to connect to mongo'))
+
+server.use('/api', router)
 
 // Route to receive and save products
 server.post('/save-products', async (req, res) => {
